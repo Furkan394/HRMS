@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -26,9 +27,9 @@ public class Candidate extends User{
 	@Column(name = "last_name")
 	private String lastName;
 	
-	@Column(name = "national_identity")
-	private String nationalIdentity;
+	@Column(name = "identity_number")
+	private String identityNumber;
 	
-	@Column(name = "date_of_birth")
-	private Date dateOfBirth;
+	@Column(name = "birth_date")
+	private Date birthDate;
 }

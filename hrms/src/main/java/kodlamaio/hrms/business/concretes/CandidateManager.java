@@ -28,12 +28,12 @@ public class CandidateManager implements CandidateService{
 	@Override
 	public DataResult<List<Candidate>> getAll() {
 		
-		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll(),"Data listed");
+		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll(),"Candidates listed");
 	}
 
 	@Override
 	public Result add(Candidate candidate) {
-		if (getByNationalIdentity(candidate.getNationalIdentity()).getData() != null) {
+		if (getByIdentityNumber(candidate.getIdentityNumber()).getData() != null) {
 			return new ErrorResult("This candidate identification number already exists.");
 		}else if (getByEmail(candidate.getEmail()).getData() != null) {
 			return new ErrorResult("This email already exists.");
@@ -44,9 +44,9 @@ public class CandidateManager implements CandidateService{
 	}
 
 	@Override
-	public DataResult<Candidate> getByNationalIdentity(String nationalIdentity) {
+	public DataResult<Candidate> getByIdentityNumber(String identityNumber) {
 		
-		return new SuccessDataResult<>(this.candidateDao.findByNationalIdentity(nationalIdentity));
+		return new SuccessDataResult<>(this.candidateDao.findByIdentityNumber(identityNumber));
 	}
 
 	@Override
