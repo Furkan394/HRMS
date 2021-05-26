@@ -12,17 +12,20 @@ import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.EmployerDao;
+import kodlamaio.hrms.dataAccess.abstracts.UserDao;
 import kodlamaio.hrms.entities.concretes.Employer;
 
 @Service
 public class EmployerManager implements EmployerService{
 
 	private EmployerDao employerDao;
+	private UserDao userDao;
 	
 	@Autowired
-	public EmployerManager(EmployerDao employerDao) {
+	public EmployerManager(EmployerDao employerDao, UserDao userDao) {
 		super();
 		this.employerDao = employerDao;
+		this.userDao = userDao;
 	}
 
 	@Override
@@ -33,19 +36,29 @@ public class EmployerManager implements EmployerService{
 
 	@Override
 	public Result add(Employer employer) {
-		if (getByEmail(employer.getEmail()).getData() != null) {
-			return new ErrorResult("This email already exists");
+		
+		if (employer.getEmail() == null
+				|| employer.getPassword() == null 
+				|| employer.getPasswordRepeat() == null 
+				|| employer.getCompanyName() == null
+				|| employer.getWebAddress() == null
+				|| employer.getPhoneNumber() == null ) {
+			return new ErrorResult("All fields must be filled.");
+		
+		}else if (!employer.getPassword().equals(employer.getPasswordRepeat())) {
+			return new ErrorResult("Passwords are incompatible.");
+		
+		}else if (!employer.getEmail().contains("@" + employer.getEmail().substring(employer.getEmail().indexOf("@") + 1))) {
+			return new ErrorResult("An e-mail address with the same domain must be used.");
+		
+		}else if (userDao.findByEmail(employer.getEmail()) != null) {
+			return new ErrorResult("This email address is already in use.");
+		
+		}else {
+			employerDao.save(employer);
+			return new SuccessResult("Employer added");
 		}
-		
-		this.employerDao.save(employer);
-		return new SuccessResult("Employer added");
+			
 	}
-
-	@Override
-	public DataResult<Employer> getByEmail(String email) {
-		
-		return new SuccessDataResult<>(this.employerDao.findByEmail(email));
-	}
-
 
 }

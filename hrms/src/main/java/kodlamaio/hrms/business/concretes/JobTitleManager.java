@@ -31,16 +31,13 @@ public class JobTitleManager implements JobTitleService{
 
 	@Override
 	public Result add(JobTitle jobTitle) {
-		if (getByTitle(jobTitle.getTitle()).getData() != null) {
+		
+		if (this.jobTitleDao.findByTitle(jobTitle.getTitle()) != null) {
 			return new ErrorResult("This title already exists");
 		}
+		
 		this.jobTitleDao.save(jobTitle);
 		return new SuccessResult("Job title added");
-	}
-
-	@Override
-	public DataResult<JobTitle> getByTitle(String title) {
-		return new SuccessDataResult<JobTitle>(this.jobTitleDao.findByTitle(title));
 	}
 
 }

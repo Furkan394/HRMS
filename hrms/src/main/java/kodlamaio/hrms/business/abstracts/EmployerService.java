@@ -8,6 +8,5 @@ import kodlamaio.hrms.entities.concretes.Employer;
 
 public interface EmployerService {
 	DataResult<List<Employer>> getAll();
-	DataResult<Employer> getByEmail(String email);
 	Result add(Employer employer);
 }
