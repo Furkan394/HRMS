@@ -31,7 +31,7 @@ public class EmployerManager implements EmployerService{
 	@Override
 	public DataResult<List<Employer>> getAll() {
 		
-		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(),"Employers listed");
+		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(),"Employers have been listed");
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class EmployerManager implements EmployerService{
 			return new ErrorResult("All fields must be filled.");
 		
 		}else if (!employer.getPassword().equals(employer.getPasswordRepeat())) {
-			return new ErrorResult("Passwords are incompatible.");
+			return new ErrorResult("Passwords do not match.");
 		
 		}else if (!employer.getEmail().contains("@" + employer.getEmail().substring(employer.getEmail().indexOf("@") + 1))) {
 			return new ErrorResult("An e-mail address with the same domain must be used.");
@@ -56,7 +56,7 @@ public class EmployerManager implements EmployerService{
 		
 		}else {
 			employerDao.save(employer);
-			return new SuccessResult("Employer added");
+			return new SuccessResult("Employer has been added");
 		}
 			
 	}

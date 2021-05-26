@@ -31,7 +31,7 @@ public class CandidateManager implements CandidateService{
 	@Override
 	public DataResult<List<Candidate>> getAll() {
 		
-		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll(),"Candidates listed");
+		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll(),"Candidates have been listed");
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class CandidateManager implements CandidateService{
 			return new ErrorResult("All fields must be filled.");
 		
 		}else if (!candidate.getPassword().equals(candidate.getPasswordRepeat())) {
-			return new ErrorResult("Passwords are incompatible.");
+			return new ErrorResult("Passwords do not match.");
 		
 		}else if (userDao.findByEmail(candidate.getEmail()) != null) {
 			return new ErrorResult("This email address is already in use.");
@@ -58,7 +58,7 @@ public class CandidateManager implements CandidateService{
 		
 		}else { 
 			candidateDao.save(candidate);
-			return new SuccessResult("Candidate added");
+			return new SuccessResult("Candidate has been added");
 		}
 			
 	}
