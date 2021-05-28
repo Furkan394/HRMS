@@ -62,7 +62,7 @@ public class CandidateManager implements CandidateService{
 		}if (candidateDao.findByIdentityNumber(candidate.getIdentityNumber()) != null) {
 			return new ErrorResult("This identity number is already in use.");
 		
-		}if (!fakeMernis.checkIfRealPerson(candidate.getIdentityNumber())) {
+		}if (!fakeMernis.checkIfRealPerson(candidate.getFirstName(), candidate.getLastName(), candidate.getIdentityNumber(), candidate.getBirthDate())) {
 			return new ErrorResult("Mernis validation failed.");
 			
 		}if (!emailValid.isEmailValid(candidate.getEmail())) {
