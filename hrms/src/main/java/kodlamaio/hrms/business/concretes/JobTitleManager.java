@@ -18,10 +18,13 @@ import kodlamaio.hrms.entities.concretes.JobTitle;
 @Service
 public class JobTitleManager implements JobTitleService{
 
-	@Autowired
+	
 	private JobTitleDao jobTitleDao;
 	
-	public JobTitleManager() {}
+	@Autowired
+	public JobTitleManager(JobTitleDao jobTitleDao) {
+		this.jobTitleDao = jobTitleDao;
+	}
 	
 	@Override
 	public DataResult<List<JobTitle>> getAll() {
