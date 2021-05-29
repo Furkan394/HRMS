@@ -3,7 +3,6 @@ package kodlamaio.hrms.business.concretes;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.JobAdvertisementService;
@@ -32,15 +31,15 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByIsActive() {
+	public DataResult<List<JobAdvertisement>> getByIsActiveTrue() {
 		
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByIsActive(),"Active job advertisements have been listed");
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByIsActiveTrue(),"Active job advertisements have been listed");
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByIsActiveAndPostedDate() {
-		Sort sort = Sort.by(Sort.Direction.ASC,"postedDate");
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findAll(sort),"All active job advertisements have been listed by date.");
+	public DataResult<List<JobAdvertisement>> getByIsActiveTrueOrderByPostedDate() {
+		
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByIsActiveTrueOrderByPostedDate(),"All active job advertisements have been listed by date.");
 	}
 
 	@Override
@@ -55,12 +54,10 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		return new SuccessResult("Job advertisement has been added.");
 	}
 
-	//update işlemi yapılacak
-	
-	/*
-	 * @Override public Result update(JobAdvertisement jobAdvertisement) {
-	 * 
-	 * return null; }
-	 */
+	@Override
+	public Result delete(JobAdvertisement jobAdvertisement) {
+		this.jobAdvertisementDao.delete(jobAdvertisement);
+		return new SuccessResult("Job advertisement has been deleted.");
+	}
 
 }

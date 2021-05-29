@@ -3,10 +3,12 @@ package kodlamaio.hrms.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kodlamaio.hrms.business.abstracts.JobAdvertisementService;
@@ -31,13 +33,13 @@ public class JobAdvertisementsController {
 	}
 	
 	@GetMapping("/getByIsActive")
-	public DataResult<List<JobAdvertisement>> getByIsActive(){
-		return this.jobAdvertisementService.getByIsActive();
+	public DataResult<List<JobAdvertisement>> getByIsActiveTrue(){
+		return this.jobAdvertisementService.getByIsActiveTrue();
 	}
 	
 	@GetMapping("/getByPostedDate")
-	public DataResult<List<JobAdvertisement>> getByIsActiveAndPostedDate(){
-		return this.jobAdvertisementService.getByIsActiveAndPostedDate();
+	public DataResult<List<JobAdvertisement>> getByIsActiveTrueOrderByPostedDate(){
+		return this.jobAdvertisementService.getByIsActiveTrueOrderByPostedDate();
 	}
 	
 	@GetMapping("/getByCompanyName")
@@ -48,5 +50,10 @@ public class JobAdvertisementsController {
 	@PostMapping("/add")
 	public Result add(@RequestBody JobAdvertisement jobAdvertisement) {
 		return this.jobAdvertisementService.add(jobAdvertisement);
+	}
+	
+	@DeleteMapping("/delete")
+	public Result delete(@RequestParam JobAdvertisement jobAdvertisement) {
+		return this.jobAdvertisementService.delete(jobAdvertisement);
 	}
 }
