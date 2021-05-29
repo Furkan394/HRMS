@@ -31,21 +31,21 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByIsActiveTrue() {
+	public DataResult<List<JobAdvertisement>> findByIsActive() {
 		
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByIsActiveTrue(),"Active job advertisements have been listed");
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findByIsActive(true),"Active job advertisements have been listed");
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByIsActiveTrueOrderByPostedDate() {
+	public DataResult<List<JobAdvertisement>> findByIsActiveAndApplicationDeadline() {
 		
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByIsActiveTrueOrderByPostedDate(),"All active job advertisements have been listed by date.");
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findByIsActiveOrderByApplicationDeadline(true),"All active job advertisements have been listed by date.");
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByEmployer_CompanyName(String companyName) {
+	public DataResult<List<JobAdvertisement>> findByIsActiveAndCompanyName(String companyName) {
 		
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.getByEmployer_CompanyName(companyName),"All active job advertisements belonging to the company have been listed");
+		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findByIsActiveAndEmployer_CompanyName(true,companyName),"All active job advertisements belonging to the company have been listed");
 	}
 	
 	@Override

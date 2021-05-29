@@ -33,18 +33,18 @@ public class JobAdvertisementsController {
 	}
 	
 	@GetMapping("/getByIsActive")
-	public DataResult<List<JobAdvertisement>> getByIsActiveTrue(){
-		return this.jobAdvertisementService.getByIsActiveTrue();
+	public DataResult<List<JobAdvertisement>> findByIsActive(){
+		return this.jobAdvertisementService.findByIsActive();
 	}
 	
-	@GetMapping("/getByPostedDate")
-	public DataResult<List<JobAdvertisement>> getByIsActiveTrueOrderByPostedDate(){
-		return this.jobAdvertisementService.getByIsActiveTrueOrderByPostedDate();
+	@GetMapping("/getByApplicationDeadline")
+	public DataResult<List<JobAdvertisement>> findByIsActiveAndApplicationDeadline(){
+		return this.jobAdvertisementService.findByIsActiveAndApplicationDeadline();
 	}
 	
 	@GetMapping("/getByCompanyName")
-	public DataResult<List<JobAdvertisement>> getByEmployer_CompanyName(String companyName){
-		return this.jobAdvertisementService.getByEmployer_CompanyName(companyName);
+	public DataResult<List<JobAdvertisement>> findByIsActiveAndCompanyName(@RequestParam String companyName){
+		return this.jobAdvertisementService.findByIsActiveAndCompanyName(companyName);
 	}
 	
 	@PostMapping("/add")
