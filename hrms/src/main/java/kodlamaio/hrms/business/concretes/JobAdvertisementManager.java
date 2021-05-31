@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.JobAdvertisementService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
+import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.JobAdvertisementDao;
 import kodlamaio.hrms.entities.concretes.JobAdvertisement;
+import kodlamaio.hrms.entities.dtos.JobAdvertisementDto;
 
 @Service
 public class JobAdvertisementManager implements JobAdvertisementService{
@@ -25,39 +27,48 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getAll() {
+	public Result add(JobAdvertisement jobAdvertisement) {
+		if (jobAdvertisementDao.findById(jobAdvertisement.getId()) != null) {
+			return new ErrorResult("this job advertisement already exists.");
+		}else {
+			this.jobAdvertisementDao.save(jobAdvertisement);
+			return new SuccessResult("Job advertisement has been added.");
+		}
 		
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findAll(),"Job advertisements have been listed.");
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> findByIsActive() {
+	public Result delete(int id) {
+		if (!findById(id).getData().isActive()) {
+			this.jobAdvertisementDao.deleteById(id);
+			return new SuccessResult("Job advertisement has been deleted.");
+		}else {
+			return new ErrorResult("Job advertisement could not be removed");
+		}
 		
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findByIsActive(true),"Active job advertisements have been listed");
-	}
-
-	@Override
-	public DataResult<List<JobAdvertisement>> findByIsActiveAndApplicationDeadline() {
-		
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findByIsActiveOrderByApplicationDeadline(true),"All active job advertisements have been listed by date.");
-	}
-
-	@Override
-	public DataResult<List<JobAdvertisement>> findByIsActiveAndCompanyName(String companyName) {
-		
-		return new SuccessDataResult<List<JobAdvertisement>>(this.jobAdvertisementDao.findByIsActiveAndEmployer_CompanyName(true,companyName),"All active job advertisements belonging to the company have been listed");
 	}
 	
 	@Override
-	public Result add(JobAdvertisement jobAdvertisement) {
-		this.jobAdvertisementDao.save(jobAdvertisement);
-		return new SuccessResult("Job advertisement has been added.");
+	public DataResult<List<JobAdvertisementDto>> findByIsActive() {
+		
+		return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByIsActive(),"Active job advertisements have been listed");
 	}
 
 	@Override
-	public Result delete(JobAdvertisement jobAdvertisement) {
-		this.jobAdvertisementDao.delete(jobAdvertisement);
-		return new SuccessResult("Job advertisement has been deleted.");
+	public DataResult<List<JobAdvertisementDto>> findByIsActiveAndApplicationDeadline() {
+		
+		return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByIsActiveOrderByApplicationDeadline(),"All active job advertisements have been listed by date.");
+	}
+
+	@Override
+	public DataResult<List<JobAdvertisementDto>> findByIsActiveAndCompanyName(String companyName) {
+		
+		return new SuccessDataResult<List<JobAdvertisementDto>>(this.jobAdvertisementDao.findByIsActiveAndEmployer_CompanyName(companyName),"All active job advertisements belonging to the company have been listed");
+	}
+
+	@Override
+	public DataResult<JobAdvertisement> findById(int id) {
+		return new SuccessDataResult<JobAdvertisement>(this.jobAdvertisementDao.getOne(id));
 	}
 
 }

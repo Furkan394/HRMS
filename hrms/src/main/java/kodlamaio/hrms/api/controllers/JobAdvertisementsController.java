@@ -15,6 +15,7 @@ import kodlamaio.hrms.business.abstracts.JobAdvertisementService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.JobAdvertisement;
+import kodlamaio.hrms.entities.dtos.JobAdvertisementDto;
 
 @RestController
 @RequestMapping("/api/jobadvertisements")
@@ -27,23 +28,18 @@ public class JobAdvertisementsController {
 		this.jobAdvertisementService = jobAdvertisementService;
 	}
 	
-	@GetMapping("/getall")
-	public DataResult<List<JobAdvertisement>> getAll(){
-		return this.jobAdvertisementService.getAll();
-	}
-	
 	@GetMapping("/getByIsActive")
-	public DataResult<List<JobAdvertisement>> findByIsActive(){
+	public DataResult<List<JobAdvertisementDto>> findByIsActive(){
 		return this.jobAdvertisementService.findByIsActive();
 	}
 	
 	@GetMapping("/getByApplicationDeadline")
-	public DataResult<List<JobAdvertisement>> findByIsActiveAndApplicationDeadline(){
+	public DataResult<List<JobAdvertisementDto>> findByIsActiveAndApplicationDeadline(){
 		return this.jobAdvertisementService.findByIsActiveAndApplicationDeadline();
 	}
 	
 	@GetMapping("/getByCompanyName")
-	public DataResult<List<JobAdvertisement>> findByIsActiveAndCompanyName(@RequestParam String companyName){
+	public DataResult<List<JobAdvertisementDto>> findByIsActiveAndCompanyName(@RequestParam String companyName){
 		return this.jobAdvertisementService.findByIsActiveAndCompanyName(companyName);
 	}
 	
@@ -53,7 +49,7 @@ public class JobAdvertisementsController {
 	}
 	
 	@DeleteMapping("/delete")
-	public Result delete(@RequestParam JobAdvertisement jobAdvertisement) {
-		return this.jobAdvertisementService.delete(jobAdvertisement);
+	public Result delete(@RequestParam int id) {
+		return this.jobAdvertisementService.delete(id);
 	}
 }
