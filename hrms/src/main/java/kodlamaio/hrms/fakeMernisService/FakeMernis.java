@@ -1,4 +1,4 @@
-package kodlamaio.hrms;
+package kodlamaio.hrms.fakeMernisService;
 
 import java.time.LocalDate;
 
