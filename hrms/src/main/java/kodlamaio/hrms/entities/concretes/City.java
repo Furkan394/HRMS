@@ -35,5 +35,5 @@ public class City {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "city")
-	private List<JobAdvertisement> jobAdvertisement;
+	private List<JobAdvertisement> jobAdvertisements;
 }
