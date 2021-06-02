@@ -29,7 +29,7 @@ public class JobTitleManager implements JobTitleService{
 	@Override
 	public DataResult<List<JobTitle>> getAll() {
 		
-		return new SuccessDataResult<List<JobTitle>>(this.jobTitleDao.findAll(),"Job titles have been listed");
+		return new SuccessDataResult<List<JobTitle>>(this.jobTitleDao.findAll(),"Job titles listed");
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class JobTitleManager implements JobTitleService{
 		}
 		
 		this.jobTitleDao.save(jobTitle);
-		return new SuccessResult("Job title has been added");
+		return new SuccessResult("Job title added");
 	}
 
 }

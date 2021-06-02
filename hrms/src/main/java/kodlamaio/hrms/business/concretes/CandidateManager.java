@@ -37,7 +37,7 @@ public class CandidateManager implements CandidateService{
 	@Override
 	public DataResult<List<Candidate>> getAll() {
 		
-		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll(),"Candidates have been listed.");
+		return new SuccessDataResult<List<Candidate>>(this.candidateDao.findAll(),"Candidates listed.");
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class CandidateManager implements CandidateService{
 		}else {
 			
 			this.candidateDao.save(candidate);
-			return new SuccessResult("Candidate has been added.");
+			return new SuccessResult("Candidate added.");
 		}
 	}
 }

@@ -37,7 +37,7 @@ public class EmployerManager implements EmployerService{
 	@Override
 	public DataResult<List<Employer>> getAll() {
 		
-		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(),"Employers have been listed.");
+		return new SuccessDataResult<List<Employer>>(this.employerDao.findAll(),"Employers listed.");
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class EmployerManager implements EmployerService{
 		}else {
 			
 			this.employerDao.save(employer);
-			return new SuccessResult("Employer has been added.");
+			return new SuccessResult("Employer added.");
 		}
 			
 	}
