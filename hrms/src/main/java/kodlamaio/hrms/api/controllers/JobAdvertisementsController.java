@@ -18,7 +18,7 @@ import kodlamaio.hrms.entities.concretes.JobAdvertisement;
 import kodlamaio.hrms.entities.dtos.JobAdvertisementDto;
 
 @RestController
-@RequestMapping("/api/jobadvertisements")
+@RequestMapping("/api/job-advertisements")
 public class JobAdvertisementsController {
 	private JobAdvertisementService jobAdvertisementService;
 
