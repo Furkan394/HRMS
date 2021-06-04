@@ -5,7 +5,7 @@ BEGIN;
 
 CREATE TABLE public.candidates
 (
-    id integer NOT NULL,
+    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     first_name character varying(35) NOT NULL,
     last_name character varying(35) NOT NULL,
     identity_number character varying(11) NOT NULL,
@@ -24,19 +24,14 @@ CREATE TABLE public.cover_letters
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     cover_letter character varying(500) NOT NULL,
+    candidate_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE public.curriculum_vitaes
+CREATE TABLE public.cv_images
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    school_candidate_id integer NOT NULL,
-    workplace_experience_candidate_id integer NOT NULL,
-    programming_technology_id integer NOT NULL,
-    foreign_language_id integer NOT NULL,
-    foreign_language_level_id integer NOT NULL,
-    social_media_id integer NOT NULL,
-    cover_letter_id integer NOT NULL,
+    image_url character varying(500) NOT NULL,
     candidate_id integer NOT NULL,
     PRIMARY KEY (id)
 );
@@ -83,7 +78,8 @@ CREATE TABLE public.employers
 CREATE TABLE public.foreign_language_levels
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    foreign_language_level smallint NOT NULL,
+    level smallint NOT NULL,
+    candidate_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -91,6 +87,7 @@ CREATE TABLE public.foreign_languages
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     foreign_language_name character varying(50) NOT NULL,
+    candidate_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -121,6 +118,7 @@ CREATE TABLE public.programming_technologies
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     programming_technology_name character varying(100) NOT NULL,
+    candidate_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -130,6 +128,7 @@ CREATE TABLE public.school_candidates
     school_department_id integer NOT NULL,
     date_of_entry date NOT NULL,
     date_of_graduation date,
+    candidate_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -151,8 +150,9 @@ CREATE TABLE public.schools
 CREATE TABLE public.social_medias
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    github_link character varying(500),
-    linkedin_link character varying(500),
+    github_link character varying(500) NOT NULL,
+    linkedin_link character varying(500) NOT NULL,
+    candidate_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -174,20 +174,14 @@ CREATE TABLE public.verification_codes
     PRIMARY KEY (id)
 );
 
-CREATE TABLE public.workplace_experience_candidates
-(
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    workplace_id integer NOT NULL,
-    job_title_id integer NOT NULL,
-    date_of_entry date NOT NULL,
-    date_of_leave date,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE public.workplace_experiences
 (
     id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    workplace_name character varying(100) NOT NULL,
+    workplace_name character varying(255) NOT NULL,
+    "position" character varying(255) NOT NULL,
+    date_of_entry date NOT NULL,
+    date_of_leave date,
+    candidate_id integer NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -197,49 +191,13 @@ ALTER TABLE public.candidates
     NOT VALID;
 
 
-ALTER TABLE public.curriculum_vitaes
-    ADD FOREIGN KEY (cover_letter_id)
-    REFERENCES public.cover_letters (id)
+ALTER TABLE public.cover_letters
+    ADD FOREIGN KEY (candidate_id)
+    REFERENCES public.candidates (id)
     NOT VALID;
 
 
-ALTER TABLE public.curriculum_vitaes
-    ADD FOREIGN KEY (foreign_language_id)
-    REFERENCES public.foreign_languages (id)
-    NOT VALID;
-
-
-ALTER TABLE public.curriculum_vitaes
-    ADD FOREIGN KEY (foreign_language_level_id)
-    REFERENCES public.foreign_language_levels (id)
-    NOT VALID;
-
-
-ALTER TABLE public.curriculum_vitaes
-    ADD FOREIGN KEY (programming_technology_id)
-    REFERENCES public.programming_technologies (id)
-    NOT VALID;
-
-
-ALTER TABLE public.curriculum_vitaes
-    ADD FOREIGN KEY (school_candidate_id)
-    REFERENCES public.school_candidates (id)
-    NOT VALID;
-
-
-ALTER TABLE public.curriculum_vitaes
-    ADD FOREIGN KEY (social_media_id)
-    REFERENCES public.social_medias (id)
-    NOT VALID;
-
-
-ALTER TABLE public.curriculum_vitaes
-    ADD FOREIGN KEY (workplace_experience_candidate_id)
-    REFERENCES public.workplace_experience_candidates (id)
-    NOT VALID;
-
-
-ALTER TABLE public.curriculum_vitaes
+ALTER TABLE public.cv_images
     ADD FOREIGN KEY (candidate_id)
     REFERENCES public.candidates (id)
     NOT VALID;
@@ -275,6 +233,18 @@ ALTER TABLE public.employers
     NOT VALID;
 
 
+ALTER TABLE public.foreign_language_levels
+    ADD FOREIGN KEY (candidate_id)
+    REFERENCES public.candidates (id)
+    NOT VALID;
+
+
+ALTER TABLE public.foreign_languages
+    ADD FOREIGN KEY (candidate_id)
+    REFERENCES public.candidates (id)
+    NOT VALID;
+
+
 ALTER TABLE public.job_advertisements
     ADD FOREIGN KEY (city_id)
     REFERENCES public.cities (id)
@@ -290,6 +260,18 @@ ALTER TABLE public.job_advertisements
 ALTER TABLE public.job_advertisements
     ADD FOREIGN KEY (job_title_id)
     REFERENCES public.job_titles (id)
+    NOT VALID;
+
+
+ALTER TABLE public.programming_technologies
+    ADD FOREIGN KEY (candidate_id)
+    REFERENCES public.candidates (id)
+    NOT VALID;
+
+
+ALTER TABLE public.school_candidates
+    ADD FOREIGN KEY (candidate_id)
+    REFERENCES public.candidates (id)
     NOT VALID;
 
 
@@ -311,21 +293,21 @@ ALTER TABLE public.school_departments
     NOT VALID;
 
 
+ALTER TABLE public.social_medias
+    ADD FOREIGN KEY (candidate_id)
+    REFERENCES public.candidates (id)
+    NOT VALID;
+
+
 ALTER TABLE public.verification_codes
     ADD FOREIGN KEY (user_id)
     REFERENCES public.users (id)
     NOT VALID;
 
 
-ALTER TABLE public.workplace_experience_candidates
-    ADD FOREIGN KEY (job_title_id)
-    REFERENCES public.job_titles (id)
-    NOT VALID;
-
-
-ALTER TABLE public.workplace_experience_candidates
-    ADD FOREIGN KEY (workplace_id)
-    REFERENCES public.workplace_experiences (id)
+ALTER TABLE public.workplace_experiences
+    ADD FOREIGN KEY (candidate_id)
+    REFERENCES public.candidates (id)
     NOT VALID;
 
 END;
