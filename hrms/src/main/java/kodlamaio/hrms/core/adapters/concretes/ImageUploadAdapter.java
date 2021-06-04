@@ -17,17 +17,17 @@ import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 
 @Service
-public class ImageUploadManager implements ImageUploadService{
+public class ImageUploadAdapter implements ImageUploadService{
 		
 	Cloudinary cloudinary;
 	
 	@Autowired
-	public ImageUploadManager() {
+	public ImageUploadAdapter() {
 		
 		this.cloudinary = new Cloudinary(ObjectUtils.asMap(
 				"cloud_name", "dhtnd9kfk",
 				"api_key", "927126158678152",
-				"api_secret", "LaC_8aO4_p-HX3i4vVGK3wRfN3UpWmMbrm_GS4-sjI"));
+				"api_secret", "HX3i4vVGK3wRfN3UpWmMbrm_GS4"));
 		
 	}
 	
