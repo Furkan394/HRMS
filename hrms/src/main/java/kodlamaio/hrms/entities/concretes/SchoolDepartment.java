@@ -32,11 +32,11 @@ public class SchoolDepartment {
 	@Column(name = "id")
 	private int id;
 	
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name = "school_id")
 	private School school;
 	
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name = "department_id")
 	private Department department;
 	

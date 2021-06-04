@@ -27,7 +27,7 @@ public class WorkplaceExperienceManager implements WorkplaceExperienceService{
 	@Override
 	public DataResult<List<WorkplaceExperience>> getAll() {
 		
-		return new SuccessDataResult<List<WorkplaceExperience>>(this.workplaceExperienceDao.findAll(),"Workplace experiences listed.");
+		return new SuccessDataResult<List<WorkplaceExperience>>(this.workplaceExperienceDao.findAll(),"Workplace experience listed.");
 	}
 
 	@Override
@@ -37,4 +37,3 @@ public class WorkplaceExperienceManager implements WorkplaceExperienceService{
 	}
 
 }
-

@@ -6,11 +6,11 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +24,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @PrimaryKeyJoinColumn(name = "id")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "curriculumVitaes"})
 @Table(name = "candidates")
 public class Candidate extends User{
 	
@@ -40,8 +39,37 @@ public class Candidate extends User{
 	
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "candidate")
+	private List<CoverLetter> coverLetters;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "candidate")
-	private List<CurriculumVitae> curriculumVitaes;
+	private List<ForeignLanguage> foreignLanguages;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "candidate")
+	private List<ForeignLanguageLevel> foreignLanguageLevels;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "candidate")
+	private List<ProgrammingTechnology> programmingTechnologies;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "candidate")
+	private List<SchoolCandidate> schoolCandidates;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "candidate")
+	private List<SocialMedia> socialMedias;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "candidate")
+	private List<WorkplaceExperience> workplaceExperiences;
+	
+	@JsonIgnore
+	@OneToOne(mappedBy = "candidate")
+	private CvImage image;
+
 }

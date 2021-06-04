@@ -2,7 +2,6 @@ package kodlamaio.hrms.entities.concretes;
 
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,11 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +23,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "curriculumVitaes"})
 @Table(name = "school_candidates")
 public class SchoolCandidate {
 	
@@ -34,17 +31,18 @@ public class SchoolCandidate {
 	@Column(name = "id")
 	private int id;
 
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name = "school_department_id")
 	private SchoolDepartment schoolDepartment;
 
 	@Column(name = "date_of_entry")
 	private LocalDate dateOfEntry;
 	
+	
 	@Column(name = "date_of_graduation")
 	private LocalDate dateOfGraduation;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "schoolCandidate")
-	private List<CurriculumVitae> curriculumVitaes;
+	@ManyToOne()
+	@JoinColumn(name = "candidate_id")
+	private Candidate candidate;
 }

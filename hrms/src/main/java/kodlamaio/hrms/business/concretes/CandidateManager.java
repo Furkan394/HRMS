@@ -16,6 +16,7 @@ import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.CandidateDao;
 import kodlamaio.hrms.dataAccess.abstracts.UserDao;
 import kodlamaio.hrms.entities.concretes.Candidate;
+import kodlamaio.hrms.entities.dtos.CvDto;
 
 @Service
 public class CandidateManager implements CandidateService{
@@ -26,12 +27,13 @@ public class CandidateManager implements CandidateService{
 	private EmailValidationService emailValid;
 	
 	@Autowired
-	public CandidateManager(CandidateDao candidateDao, UserDao userDao, FakeMernisService fakeMernis, EmailValidationService emailValid) {
+	public CandidateManager(CandidateDao candidateDao, UserDao userDao,
+			FakeMernisService fakeMernis, EmailValidationService emailValid) {
 		super();
 		this.candidateDao = candidateDao;
 		this.userDao = userDao;
 		this.fakeMernis = fakeMernis;
-		this.emailValid = emailValid;		
+		this.emailValid = emailValid;
 	}
 
 	@Override
@@ -76,5 +78,26 @@ public class CandidateManager implements CandidateService{
 			this.candidateDao.save(candidate);
 			return new SuccessResult("Candidate added.");
 		}
+	}
+
+	@Override
+	public DataResult<CvDto> getCvById(int id) {
+		Candidate candidate = this.candidateDao.getById(id);
+		CvDto cv = new CvDto();
+		cv.coverLetters = candidate.getCoverLetters();
+		cv.foreignLanguages = candidate.getForeignLanguages();
+		cv.foreignLanguageLevels = candidate.getForeignLanguageLevels();
+		cv.programmingTechnologies = candidate.getProgrammingTechnologies();
+		cv.schoolCandidates = candidate.getSchoolCandidates();
+		cv.socialMedias = candidate.getSocialMedias();
+		cv.workplaceExperiences = candidate.getWorkplaceExperiences();
+		cv.cvImage = candidate.getImage();
+		return new SuccessDataResult<CvDto>(cv);
+	}
+
+	@Override
+	public DataResult<Candidate> getById(int id) {
+
+		return new SuccessDataResult<Candidate>(this.candidateDao.getById(id));
 	}
 }
