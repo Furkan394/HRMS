@@ -25,9 +25,7 @@ public class ImageUploadAdapter implements ImageUploadService{
 	public ImageUploadAdapter() {
 		
 		this.cloudinary = new Cloudinary(ObjectUtils.asMap(
-				"cloud_name", "dhtnd9kfk",
-				"api_key", "927126158678152",
-				"api_secret", "HX3i4vVGK3wRfN3UpWmMbrm_GS4"));
+				(api-key)
 		
 	}
 	
